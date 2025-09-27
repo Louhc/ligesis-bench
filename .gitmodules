@@ -1,0 +1,3 @@
+[submodule "HyperPianist"]
+	path = HyperPianist
+	url = git@github.com:AntCPLab/HyperPianist.git
