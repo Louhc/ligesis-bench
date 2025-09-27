@@ -1,6 +1,60 @@
 [package]
 name = "ligesis-bench"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
+
+[patch.crates-io]
+ark-ff = { path = "HyperPianist/third_party/algebra/ff" }
+ark-ec = { path = "HyperPianist/third_party/algebra/ec" }
+ark-serialize = { path = "HyperPianist/third_party/algebra/serialize" }
+ark-bn254 = { path = "HyperPianist/third_party/curves/bn254" }
 
 [dependencies]
+arithmetic = { path = "HyperPianist/arithmetic" }
+subroutines = { path = "HyperPianist/subroutines" }
+transcript = { path = "HyperPianist/transcript" }
+deNetwork = { path = "HyperPianist/deNetwork" }
+util = { path = "HyperPianist/util" }
+hyperpianist = {path = "HyperPianist/hyperpianist" }
+deDory = { path = "HyperPianist/deDory" }
+ark-ec = { version = "^0.4.0", default-features = false }
+ark-ff = { version = "^0.4.0", default-features = false, features = ["asm"] }
+ark-poly = { version = "^0.4.0", default-features = false }
+ark-serialize = { version = "^0.4.0", default-features = false, features = [ "derive" ] }
+ark-std = { version = "^0.4.0", default-features = false }
+displaydoc = { version = "0.2.3", default-features = false }
+itertools = "0.13.0"
+rayon = { version = "1.5.2", default-features = false, optional = true }
+lazy_static = "1.5.0"
+ark-bls12-381 = { version = "0.4.0", default-features = false, features = [ "curve" ] }
+ark-bn254 = { version = "0.4.0", features = ["asm"] }
+structopt = { version = "0.3" }
+rand = "0.8.5"
+
+[features]
+# default = [ ]
+# default = [ "parallel" ]
+# default = [ "parallel", "print-trace" ]
+default = ["parallel", "extensive_sanity_checks", "rational_sumcheck_piop" ]
+bench = ["parallel"]
+# extensive sanity checks that are useful for debugging
+extensive_sanity_checks = [
+    "subroutines/extensive_sanity_checks",
+ ]
+parallel = [ 
+    "rayon",
+    "ark-std/parallel", 
+    "ark-ff/parallel",  
+    "ark-poly/parallel", 
+    "ark-ec/parallel",
+
+    "arithmetic/parallel",
+    "subroutines/parallel",
+    "util/parallel"
+    ]
+print-trace = [ 
+    "ark-std/print-trace",
+    "arithmetic/print-trace",
+    "subroutines/print-trace"
+    ] 
+rational_sumcheck_piop = ["subroutines/rational_sumcheck_piop"]
